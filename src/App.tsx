@@ -6,7 +6,6 @@ import { AppSidebar } from "./components/app-sidebar";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
-import Analytics from "./pages/Analytics";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +26,6 @@ function App() {
                     <Routes>
                       <Route path="/" element={<Dashboard />} />
                       <Route path="/users" element={<Users />} />
-                      <Route path="/analytics" element={<Analytics />} />
                     </Routes>
                   </div>
                 </main>

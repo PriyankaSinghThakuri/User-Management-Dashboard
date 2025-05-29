@@ -5,13 +5,12 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { BarChart3, Home, Moon, Sun, Users } from "lucide-react";
+import { Home, Moon, Sun, Users } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";
 
@@ -26,11 +25,6 @@ const menuItems = [
     url: "/users",
     icon: Users,
   },
-  {
-    title: "Analytics",
-    url: "/analytics",
-    icon: BarChart3,
-  },
 ];
 
 export function AppSidebar() {
@@ -40,11 +34,10 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader className="p-6">
-        <h2 className="text-xl font-bold text-primary">UserAdmin</h2>
+        <h2 className="text-xl font-bold text-primary">Users</h2>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
