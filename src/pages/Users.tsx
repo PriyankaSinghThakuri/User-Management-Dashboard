@@ -148,15 +148,17 @@ const Users = () => {
                         className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${
                           user.status === "Active"
                             ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                            : user.status === "Pending"
+                            ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
                             : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
                         }`}
                       >
-                        {user.status || "-"}
+                        {user.status}
                       </span>
                     </td>
                     <td className="px-4 py-3 sm:px-6 text-right">
                       <a
-                        href={`/users/${user.id}`}
+                        href={`/user/${user.id}`}
                         className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium hover:underline transition duration-150"
                       >
                         Edit

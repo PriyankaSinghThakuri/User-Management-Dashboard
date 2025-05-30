@@ -30,20 +30,18 @@ const Dashboard = () => {
     queryKey: ["users"],
     queryFn: getUsersData,
   });
+
   const stats = useMemo(() => {
-    const total = users?.length;
-    const active = users?.filter(
-      (user: any) => user?.status === "Active"
-    )?.length;
-    const inactive = users?.filter(
-      (user: any) => user?.status === "Inactive"
-    )?.length;
-    const pending = users?.filter(
-      (user: any) => user?.status === "Pending"
-    )?.length;
+    const total = users?.length || 0;
+    const active =
+      users?.filter((user: any) => user?.status === "Active")?.length || 0;
+    const inactive =
+      users?.filter((user: any) => user?.status === "Inactive")?.length || 0;
+    const pending =
+      users?.filter((user: any) => user?.status === "Pending")?.length || 0;
 
     return { total, active, inactive, pending };
-  }, []);
+  }, [users]);
 
   const roleData = useMemo(() => {
     if (!users) return [];

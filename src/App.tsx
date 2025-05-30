@@ -1,12 +1,14 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AppSidebar } from "./components/app-sidebar";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import Dashboard from "./pages/Dashboard";
-import Users from "./pages/Users";
 
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const UserDetails = lazy(() => import("./pages/UserDetails"));
+const Users = lazy(() => import("./pages/Users"));
 const queryClient = new QueryClient();
 
 function App() {
@@ -23,10 +25,13 @@ function App() {
                     <div className="mb-6">
                       <SidebarTrigger />
                     </div>
-                    <Routes>
-                      <Route path="/" element={<Dashboard />} />
-                      <Route path="/users" element={<Users />} />
-                    </Routes>
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <Routes>
+                        <Route path="/" element={<Dashboard />} />
+                        <Route path="/users" element={<Users />} />
+                        <Route path="/user/:id" element={<UserDetails />} />
+                      </Routes>
+                    </Suspense>
                   </div>
                 </main>
               </div>

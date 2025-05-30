@@ -20,9 +20,10 @@ const useAPI = () => {
     }
   };
 
-  const getUserById = async (endpoint: string, id: string) => {
+  const getUserById = async (endpoint: string, id: any) => {
     try {
       const response = await AxiosInstance.get(`${endpoint}/${id}`);
+      console.log("response", response)
       return {
         data: response.data,
         error: null,

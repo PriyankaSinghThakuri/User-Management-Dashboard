@@ -2,13 +2,8 @@ export interface User {
     id: string;
     name: string;
     email: string;
-    role: 'Admin' | 'User' | 'Manager' | 'Viewer';
+    role: string;
     status: 'Active' | 'Inactive' | 'Pending';
-    avatar?: string;
-    phone?: string;
-    department?: string;
-    joinDate: string;
-    lastActive: string;
   }
   
   export interface UserFilters {
