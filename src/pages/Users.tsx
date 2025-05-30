@@ -1,13 +1,23 @@
 import { endpoint } from "@/constants/endpoint";
 import useAPI from "@/hooks/useApi";
 import { useQuery } from "@tanstack/react-query";
-import { ChevronsLeft, ChevronsRight, Search } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronsLeft,
+  ChevronsRight,
+  ChevronUp,
+  Search,
+} from "lucide-react";
 import { useMemo, useState } from "react";
 
 const Users = () => {
   const { getUsers } = useAPI();
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("");
+  const [sortConfig, setSortConfig] = useState<{
+    key: string;
+    direction: "asc" | "desc";
+  } | null>(null);
   const perPage = 8;
 
   const getUsersData = async () => {
@@ -26,27 +36,45 @@ const Users = () => {
     queryFn: getUsersData,
   });
 
-  const filteredUsers = useMemo(() => {
+  const sortedAndFilteredUsers = useMemo(() => {
     if (!users) return [];
 
-    const filterLower = filter.toLowerCase();
+    let filtered = users.filter(
+      (user: any) =>
+        user.name.toLowerCase().includes(filter.toLowerCase()) ||
+        user.email.toLowerCase().includes(filter.toLowerCase())
+    );
 
-    return users.filter((user: any) => {
-      return (
-        user.name.toLowerCase().includes(filterLower) ||
-        user.email.toLowerCase().includes(filterLower)
-      );
-    });
-  }, [users, filter]);
+    if (sortConfig) {
+      filtered = [...filtered].sort((a, b) => {
+        const aVal = a[sortConfig.key].toLowerCase();
+        const bVal = b[sortConfig.key].toLowerCase();
 
-  const totalPages = filteredUsers.length
-    ? Math.ceil(filteredUsers.length / perPage)
+        if (aVal < bVal) return sortConfig.direction === "asc" ? -1 : 1;
+        if (aVal > bVal) return sortConfig.direction === "asc" ? 1 : -1;
+        return 0;
+      });
+    }
+
+    return filtered;
+  }, [users, filter, sortConfig]);
+
+  const totalPages = sortedAndFilteredUsers.length
+    ? Math.ceil(sortedAndFilteredUsers.length / perPage)
     : 1;
 
-  const paginatedUsers = filteredUsers.slice(
+  const paginatedUsers = sortedAndFilteredUsers.slice(
     (currentPage - 1) * perPage,
     currentPage * perPage
   );
+
+  const handleSort = (key: string) => {
+    setSortConfig((prev) =>
+      prev && prev.key === key
+        ? { key, direction: prev.direction === "asc" ? "desc" : "asc" }
+        : { key, direction: "asc" }
+    );
+  };
 
   const handlePrev = () => {
     if (currentPage > 1) setCurrentPage((prev) => prev - 1);
@@ -70,6 +98,15 @@ const Users = () => {
       </p>
     );
   }
+
+  const renderSortIcon = (key: string) => {
+    if (sortConfig?.key !== key) return null;
+    return sortConfig.direction === "asc" ? (
+      <ChevronUp className="inline h-4 w-4 ml-1" />
+    ) : (
+      <ChevronDown className="inline h-4 w-4 ml-1" />
+    );
+  };
 
   return (
     <div className="space-y-6 p-4 sm:p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
@@ -96,11 +133,19 @@ const Users = () => {
           <table className="w-full text-sm text-left text-gray-700 dark:text-gray-300">
             <thead className="text-xs uppercase bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
               <tr>
-                <th scope="col" className="px-4 py-3 sm:px-6 font-semibold">
-                  Name
+                <th
+                  scope="col"
+                  className="px-4 py-3 sm:px-6 font-semibold cursor-pointer"
+                  onClick={() => handleSort("name")}
+                >
+                  Name {renderSortIcon("name")}
                 </th>
-                <th scope="col" className="px-4 py-3 sm:px-6 font-semibold">
-                  Email
+                <th
+                  scope="col"
+                  className="px-4 py-3 sm:px-6 font-semibold cursor-pointer"
+                  onClick={() => handleSort("email")}
+                >
+                  Email {renderSortIcon("email")}
                 </th>
                 <th scope="col" className="px-4 py-3 sm:px-6 font-semibold">
                   Role
@@ -185,8 +230,8 @@ const Users = () => {
       <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 mt-4">
         <div className="text-sm text-gray-600 dark:text-gray-400">
           Showing {(currentPage - 1) * perPage + 1} to{" "}
-          {Math.min(currentPage * perPage, filteredUsers.length)} of{" "}
-          {filteredUsers.length} users
+          {Math.min(currentPage * perPage, sortedAndFilteredUsers.length)} of{" "}
+          {sortedAndFilteredUsers.length} users
         </div>
         <div className="flex items-center gap-2">
           <button

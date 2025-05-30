@@ -33,18 +33,18 @@ const UserDetails = () => {
     return <div className="p-4 text-red-500">Failed to load user.</div>;
 
   return (
-    <div>
+    <div className="">
       <Button
         onClick={() => navigate(`/users`)}
-        className="mb-4 flex items-center text-black hover:bg-blue-700"
+        className="mb-4 flex items-center text-black hover:bg-blue-700 dark:text-white"
       >
         <ArrowLeft className="mr-2" size={20} /> Back
       </Button>
 
-      <div className="relative rounded-2xl shadow-lg p-6 border border-gray-200 bg-white">
+      <div className=" dark:bg-gray-900 relative rounded-2xl shadow-lg p-6 border border-gray-200 bg-white">
         <Button
           onClick={() => setIsEditing(!isEditing)}
-          className="absolute top-4 right-4 text-sm flex items-center text-black hover:bg-blue-700"
+          className="absolute top-4 right-4 text-sm flex items-center text-black hover:bg-blue-700 dark:text-white"
         >
           {isEditing ? (
             <>

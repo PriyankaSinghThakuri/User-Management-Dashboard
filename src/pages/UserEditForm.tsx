@@ -124,7 +124,7 @@ const UserEditForm = (props: UserEditFormProps) => {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 bg-blue-600 text-black rounded hover:bg-blue-700"
+              className="px-4 py-2 bg-blue-600 text-black rounded hover:bg-blue-700 dark:text-white"
             >
               Save Changes
             </Button>

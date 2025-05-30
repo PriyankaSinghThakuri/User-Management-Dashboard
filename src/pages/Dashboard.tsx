@@ -8,6 +8,7 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  Cell,
   Pie,
   PieChart,
   Rectangle,
@@ -74,6 +75,8 @@ const Dashboard = () => {
       value,
     }));
   }, [users]);
+
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28EFF"];
 
   return (
     <div className="space-y-6">
@@ -155,10 +158,15 @@ const Dashboard = () => {
                 cx="50%"
                 cy="50%"
                 outerRadius={80}
-                fill="#8884d8"
-                label
-              />
-              <Tooltip />
+                label={({ status, value }) => `${status}: ${value}`}
+              >
+                {statusData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
             </PieChart>
           </ResponsiveContainer>
         </Card>
