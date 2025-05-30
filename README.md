@@ -24,11 +24,9 @@ This is a user dashboard application built using modern web tools including **Re
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/user-dashboard.git
+git clone https://github.com/PriyankaSinghThakuri/User-Management-Dashboard.git
 cd user-dashboard
 
-
----
 
 ### 2. Install Dependencies
 
@@ -42,4 +40,5 @@ yarn install
 npm run dev
 # or
 yarn dev
+
 ```
